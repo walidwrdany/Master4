@@ -7,7 +7,7 @@ var host = Host.CreateDefaultBuilder(args)
     .UseSerilog(SerilogConfiguration.SetLoggerConfiguration)
     .ConfigureServices((context, services) =>
     {
-        foreach (var type in Helper.GetTypes<IFeature>()) services.AddSingleton(type);
+        Helper.GetTypes<IFeature>().ForEach(x => services.AddSingleton(x));
 
         services.AddSingleton<IFeatureFactory, FeatureFactory>();
         services.AddHostedService<Worker>();

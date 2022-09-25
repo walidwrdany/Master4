@@ -2,17 +2,13 @@ namespace Master5.Features;
 
 public class HiddenFilesFolders : BaseFeature, IFeature
 {
-    private readonly ILogger<HiddenFilesFolders> _logger;
-
-    public HiddenFilesFolders(ILogger<HiddenFilesFolders> logger)
-    {
-        _logger = logger;
-    }
-
-    public string Id => "1";
+    public string Id => GetType().GUID.ToString()[..2];
     public string Name => GetType().Name;
-    public async Task ExecuteAsync()
+    public async Task ExecuteAsync(string[] args, CancellationToken cancellationToken)
     {
-        await Task.Run(() => _logger.LogInformation($"{Id} | {Name}"));
+        await Task.Run(() =>
+        {
+
+        }, cancellationToken);
     }
 }

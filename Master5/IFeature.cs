@@ -4,5 +4,5 @@ public interface IFeature
 {
     string Id { get; }
     string Name { get; }
-    Task ExecuteAsync();
+    Task ExecuteAsync(string[] args, CancellationToken cancellationToken);
 }

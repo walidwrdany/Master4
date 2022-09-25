@@ -1,4 +1,5 @@
 using Serilog;
+using Serilog.Events;
 
 namespace Master5.Configuration;
 
@@ -35,6 +36,6 @@ public static class SerilogConfiguration
                         retainedFileCountLimit: null,
                         shared: true);
             })
-            .WriteTo.Console();
+            .WriteTo.Console(LogEventLevel.Error);
     }
 }

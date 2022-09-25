@@ -17,9 +17,27 @@ public class Worker : BackgroundService
     {
         Start:
 
-        await _factory.GetFeature<DisplayLogo>().ExecuteAsync();
+        await Task.Run(() =>
+        {
+            
+            _factory.GetAllFeatures()
+                .Where(x => !string.IsNullOrEmpty(x.Id))
+                .ToList()
+                .ForEach(f =>
+                {
+                    Console.WriteLine($" {new string(' ', GetNum(f.Id.Length))} {f.Id} | {f.Name}");
+                });
+
+        }, stoppingToken);
+
+        Console.WriteLine("{0}>>", AppDomain.CurrentDomain.BaseDirectory);
         await _factory.Goto(Console.ReadKey());
 
         goto Start;
+    }
+
+    private static int GetNum(int f)
+    {
+        return 3 - f;
     }
 }
