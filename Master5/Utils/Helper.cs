@@ -8,7 +8,7 @@ public static class Helper
     {
         return Assembly.GetExecutingAssembly()
             .GetExportedTypes()
-            .Where(x => x.GetInterfaces().Any(i => i == typeof(T)) && x.IsClass && !x.IsAbstract)
+            .Where(x => x.GetInterfaces().Any(i => i == typeof(T)) && x is { IsClass: true, IsAbstract: false })
             .ToList();
     }
 }

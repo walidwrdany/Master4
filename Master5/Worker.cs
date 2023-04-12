@@ -1,11 +1,11 @@
-using Master5.Features;
+﻿using System.Text;
 
 namespace Master5;
 
 public class Worker : BackgroundService
 {
-    private readonly ILogger<Worker> _logger;
     private readonly IFeatureFactory _factory;
+    private readonly ILogger<Worker> _logger;
 
     public Worker(ILogger<Worker> logger, IFeatureFactory factory)
     {
@@ -15,29 +15,40 @@ public class Worker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        Start:
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.OutputEncoding = Encoding.UTF8;
 
-        await Task.Run(() =>
+        while (!stoppingToken.IsCancellationRequested)
         {
-            
-            _factory.GetAllFeatures()
-                .Where(x => !string.IsNullOrEmpty(x.Id))
-                .ToList()
-                .ForEach(f =>
-                {
-                    Console.WriteLine($" {new string(' ', GetNum(f.Id.Length))} {f.Id} | {f.Name}");
-                });
-
-        }, stoppingToken);
-
-        Console.WriteLine("{0}>>", AppDomain.CurrentDomain.BaseDirectory);
-        await _factory.Goto(Console.ReadKey());
-
-        goto Start;
+            await NewMethod(stoppingToken); 
+        }
     }
 
-    private static int GetNum(int f)
+    private async Task NewMethod(CancellationToken stoppingToken)
     {
-        return 3 - f;
+        Console.WriteLine(@"          +-----------------------------------------------+          ");
+        Console.WriteLine(@"        _ |                                               | _        ");
+        Console.WriteLine(@"       /O)|        Hi 👋, I'm Walid Wrdany                |(O\       ");
+        Console.WriteLine(@"      / / |      Senior Full Stack .NET Developer         | \ \      ");
+        Console.WriteLine(@"     ( (_ |  _                                         _  | _) )     ");
+        Console.WriteLine(@"    ((\ \)+-/O)---------------------------------------(O\-+(/ /))    ");
+        Console.WriteLine(@"    (\\\ \_/ /                                         \ \_/ ///)    ");
+        Console.WriteLine(@"     \      /                                           \      /     ");
+        Console.WriteLine(@"      \____/                                             \____/      ");
+        Console.WriteLine(@"     ============================================================    ");
+        Console.WriteLine(@" __________|___________                        __________|___________");
+        Console.WriteLine();
+        await Task.Run(() =>
+        {
+            _factory.GetAllFeatures()
+                .ToList()
+                .ForEach(f => Console.WriteLine(f.ToString()));
+        }, stoppingToken);
+
+        Console.Write("{0}>>", AppDomain.CurrentDomain.BaseDirectory);
+        await _factory.Goto(Console.ReadLine());
+
+        Console.ReadKey(false);
+        Console.Clear();
     }
 }

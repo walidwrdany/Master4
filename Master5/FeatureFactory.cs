@@ -25,8 +25,19 @@ public class FeatureFactory : IFeatureFactory
         return types;
     }
 
-    public async Task Goto(ConsoleKeyInfo key)
+    public async Task Goto(string? command)
     {
-        await Task.Run(() => Console.WriteLine(key.Key.ToString()));
+        await Task.Run(() =>
+        {
+            var feature = GetAllFeatures()
+                .FirstOrDefault(x => x.Id == command);
+            
+            if (feature == null)
+            {
+                return;
+            }
+
+            feature.ExecuteAsync(null, default);
+        });
     }
 }
